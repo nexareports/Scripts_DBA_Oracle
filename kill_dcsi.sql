@@ -1,0 +1,1 @@
+execute sys.dcsi_altersystem.all_killsession(&sid_serial)

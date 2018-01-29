@@ -1,0 +1,1 @@
+select 'alter system kill session '||chr(39)||sid||','||serial#||chr(39)||' immediate;' from v$session where username='SYS' and event like 'Backup%';

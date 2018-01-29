@@ -1,0 +1,1 @@
+Select list from dba_role_privs where granted_role='&1';

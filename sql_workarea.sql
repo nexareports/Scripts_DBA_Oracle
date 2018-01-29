@@ -1,0 +1,45 @@
+rem *********************************************************** 
+rem
+rem	File: sql_workarea.sql 
+rem	Description: SQL workarea statistics 
+rem   
+rem	From 'Oracle Performance Survival Guide' by Guy Harrison
+rem		Chapter 19 Page 570
+rem		ISBN: 978-0137011957
+rem		See www.guyharrison.net for further information
+rem  
+rem		This work is in the public domain NSA 
+rem   
+rem
+rem ********************************************************* 
+
+
+SET RECSEP WRAPPED
+SET RECSEPCHAR "-"
+column operation format a9
+column seconds format 99,999.99
+ 
+column "O/1/M" format a8
+column "SQL ID - CHILD" format a16
+column sql_text format a66 heading "  "
+
+
+WITH sql_workarea AS
+     (
+        SELECT sql_id || '-' || child_number SQL_ID_Child, 
+           operation_type operation ,
+           last_execution last_exec,
+           ROUND (active_time / 1000000,
+                          2) seconds,
+           optimal_executions || '/'
+            || onepass_executions || '/'
+            || multipasses_executions o1m,
+            '    ' || SUBSTR (sql_text, 1, 155) sql_text,
+           RANK () OVER (ORDER BY active_time DESC) ranking
+        FROM v$sql_workarea JOIN v$sql 
+             USING (sql_id, child_number)  )
+SELECT   sql_id_child "SQL ID - CHILD",seconds,operation,
+        last_exec,  o1m "O/1/M",sql_text
+    FROM sql_workarea
+   WHERE ranking <= 2
+ORDER BY ranking;

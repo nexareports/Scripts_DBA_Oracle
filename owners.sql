@@ -1,0 +1,1 @@
+select owner,segment_type,count(*),round(sum(bytes)/1024/1024,2) MB from dba_segments where owner not in ('SYS','SYSTEM') group by owner,segment_type order by 1,2;

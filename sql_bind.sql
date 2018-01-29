@@ -1,0 +1,1 @@
+Select name,position,value_string from V$SQL_BIND_CAPTURE where sql_id='&1';

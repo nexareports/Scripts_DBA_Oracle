@@ -1,0 +1,9 @@
+CREATE OR REPLACE PROCEDURE DAA.COMP
+AS
+v_obj_comp    INT        :=0;        -- Contador do numero de objectos compilados num LOOP
+BEGIN
+    ESINGLRP.COMPILE_USER_OBJECTS;
+    ESINIGRP.COMPILE_USER_OBJECTS;
+    DAA.COMPILE_USER_OBJECTS;
+END;
+/

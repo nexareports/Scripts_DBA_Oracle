@@ -1,0 +1,1 @@
+select owner, round(sum(bytes)/1048576) size_mb from dba_segments where owner = upper('&1') and segment_type not in ('INDEX','INDEX PARTITION') group by owner;

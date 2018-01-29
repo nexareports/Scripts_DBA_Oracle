@@ -1,0 +1,1 @@
+select host_name,database_name,startup_time from SYSMAN.MGMT$DB_DBNINSTANCEINFO order by 3 desc;

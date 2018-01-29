@@ -1,0 +1,10 @@
+select	USERNAME,
+	CONSISTENT_GETS,
+        BLOCK_GETS,
+        PHYSICAL_READS,
+        ((CONSISTENT_GETS+BLOCK_GETS-PHYSICAL_READS) / (CONSISTENT_GETS+BLOCK_GETS)) Ratio
+from 	v$session, v$sess_io
+where 	v$session.SID = v$sess_io.SID
+and 	(CONSISTENT_GETS+BLOCK_GETS) > 0
+and 	USERNAME is not null
+order	by ((CONSISTENT_GETS+BLOCK_GETS-PHYSICAL_READS) / (CONSISTENT_GETS+BLOCK_GETS));
